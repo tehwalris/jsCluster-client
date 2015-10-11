@@ -1,7 +1,5 @@
-function bestFunc () {
-  console.log('walrus');
-}
+import ClusterClient from './clusterClient';
 
-export default {
-  test: bestFunc
-};
+export default function (...args) {
+  return new ClusterClient(...args);
+}
