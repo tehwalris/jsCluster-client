@@ -19,6 +19,7 @@ System.config({
     "core-js": "npm:core-js@1.2.1",
     "lodash": "npm:lodash@3.10.1",
     "socket.io-client": "npm:socket.io-client@1.3.7",
+    "uuid4": "npm:uuid4@1.0.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -452,6 +453,9 @@ System.config({
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:uuid4@1.0.0": {
+      "crypto": "github:jspm/nodelibs-crypto@0.1.0"
     },
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
