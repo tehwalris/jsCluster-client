@@ -26,9 +26,14 @@ class ClusterClient {
   }
 
   _handleNewWorkUnit (workUnit, cb) {
-    var workFunctionString = this.taskDefinitions[workUnit.task].functions.work;
-    var workFunction = Function.apply({}, workFunctionString.params.concat([workFunctionString.body]));
-    cb(workFunction(workUnit.data));
+    try {
+      var workFunctionString = this.taskDefinitions[workUnit.task].functions.work;
+      var workFunction = Function.apply({}, workFunctionString.params.concat([workFunctionString.body]));
+    } catch (e) {cb({type: 'error', origin: 'client', body: e});}
+    try {
+      var workResult = workFunction(workUnit.data);
+    } catch (e) {cb({type: 'error', origin: 'workFunction', body: e});}
+    cb({type: 'sucess', body: workResult});
   }
 }
 
