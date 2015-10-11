@@ -16,6 +16,7 @@ class ClusterClient {
   _connect () {
     this._socket.emit('registerClient', {uuid: this.uuid});
     return this._getTaskDefinitions()
+    .then((taskDefinitions) => this.taskDefinitions = taskDefinitions)
     .then(() => new Promise((resolve) => resolve(true)));
   }
 
@@ -27,13 +28,12 @@ class ClusterClient {
 
   _handleNewWorkUnit (workUnit, cb) {
     try {
-      var workFunctionString = this.taskDefinitions[workUnit.task].functions.work;
-      var workFunction = Function.apply({}, workFunctionString.params.concat([workFunctionString.body]));
+      var workFunction = this.taskDefinitions[workUnit.task].functions.work;
+      workFunction = Function.apply({}, workFunction.params.concat([workFunction.body]));
     } catch (e) {cb({type: 'error', origin: 'client', body: e});}
     try {
-      var workResult = workFunction(workUnit.data);
+      cb({type: 'success', body: workFunction(workUnit)});
     } catch (e) {cb({type: 'error', origin: 'workFunction', body: e});}
-    cb({type: 'sucess', body: workResult});
   }
 }
 
