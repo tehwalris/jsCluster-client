@@ -49,7 +49,6 @@ class ClusterClient {
     try {
       cb({type: 'success', body: workFunction(workUnit)});
     } catch (e) {cb({type: 'error', origin: 'workFunction', body: e});}
-    var worker = new Worker(workerScriptURL);
   }
 }
 
