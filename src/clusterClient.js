@@ -1,5 +1,8 @@
 import io from 'socket.io-client';
 import uuid4 from 'uuid4';
+import workerString from './worker';
+
+var workerScriptURL = URL.createObjectURL(new Blob([workerString], {type: 'text/javascript'}));
 
 class ClusterClient {
   constructor (url, socketOptions) {
@@ -46,6 +49,7 @@ class ClusterClient {
     try {
       cb({type: 'success', body: workFunction(workUnit)});
     } catch (e) {cb({type: 'error', origin: 'workFunction', body: e});}
+    var worker = new Worker(workerScriptURL);
   }
 }
 

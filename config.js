@@ -17,6 +17,7 @@ System.config({
     "babel": "npm:babel-core@5.8.25",
     "babel-runtime": "npm:babel-runtime@5.8.25",
     "core-js": "npm:core-js@1.2.1",
+    "function-to-string": "npm:function-to-string@0.2.0",
     "lodash": "npm:lodash@3.10.1",
     "socket.io-client": "npm:socket.io-client@1.3.7",
     "uuid4": "npm:uuid4@1.0.0",
@@ -284,10 +285,17 @@ System.config({
       "has-binary": "npm:has-binary@0.1.5",
       "utf8": "npm:utf8@2.0.0"
     },
+    "npm:esprima@1.0.4": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:evp_bytestokey@1.0.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "create-hash": "npm:create-hash@1.1.2",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0"
+    },
+    "npm:function-to-string@0.2.0": {
+      "esprima": "npm:esprima@1.0.4"
     },
     "npm:has-binary@0.1.5": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
