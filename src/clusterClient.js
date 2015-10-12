@@ -10,6 +10,7 @@ class ClusterClient {
 
   run (task, input) {
     return new Promise((resolve, reject) => {
+      setTimeout(reject.bind(this, 'Cluster coordinator timed out.'), 60000);
       this._socket.emit('startTask', {task: task, input: input}, (command, data) => {
         if(command == 'resolve')
           resolve(data);
