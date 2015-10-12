@@ -8,6 +8,17 @@ class ClusterClient {
     this.ready = this._connect();
   }
 
+  run (task, input) {
+    return new Promise((resolve, reject) => {
+      this._socket.emit('startTask', {task: task, input: input}, (command, data) => {
+        if(command == 'resolve')
+          resolve(data);
+        else
+          reject(data);
+      });
+    });
+  }
+
   _configureSocket (url, socketOptions) {
     this._socket = io(url, socketOptions);
     this._socket.on('newWorkUnit', this._handleNewWorkUnit.bind(this)); 
