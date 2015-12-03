@@ -37,22 +37,24 @@ class ClusterClient {
 
   _getTaskDefinitions () {
     return new Promise((resolve) => {
-      this._socket.emit('getTaskDefinitions', resolve);
+      this._socket.emit('getTaskDefinitions', (taskDefinitions) => {
+        _.forEach(taskDefinitions, (taskDefinition) => {
+          var workFunction = taskDefinition.functions.work;
+          workFunction = Function.apply({}, workFunction.params.concat([workFunction.body]));
+          taskDefinition.functions.workCompiled = workFunction;
+        });
+        resolve(taskDefinitions);
+      });
     });
   }
 
   _handleNewWorkUnit (workUnit, cb) {
     var times = {};
+    times.start = performance.now();
     try {
-      times.start = performance.now();
-      var workFunction = this.taskDefinitions[workUnit.task].functions.work;
-      workFunction = Function.apply({}, workFunction.params.concat([workFunction.body]));
-      times.endBind = performance.now();
-    } catch (e) {cb({type: 'error', origin: 'client', body: e});}
-    try {
-      var result = workFunction(workUnit);
+      var result = this.taskDefinitions[workUnit.task].functions.workCompiled(workUnit);
       times.end = performance.now();
-      cb({type: 'success', body: result, times: times});
+      cb({type: 'success', body: result/*, times: times*/});
     } catch (e) {cb({type: 'error', origin: 'workFunction', body: e});}
   }
 }
